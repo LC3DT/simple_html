@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechShop - <%= typeof title !== 'undefined' ? title : '科技商城' %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="brand">TechShop</a>
+    <div class="nav-links">
+      <a href="/products">商品</a>
+      <a href="/contact">留言板</a>
+      <% if (locals.user) { %>
+        <a href="/dashboard">控制台</a>
+        <a href="/profile">个人信息</a>
+        <span class="user-tag"><%= user.username %></span>
+        <a href="/logout">退出</a>
+      <% } else { %>
+        <a href="/login">登录</a>
+        <a href="/register">注册</a>
+      <% } %>
+    </div>
+  </nav>
+  <div class="container">
+    <%- body %>
+  </div>
+</body>
+</html>

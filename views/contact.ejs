@@ -1,0 +1,34 @@
+<h2 style="margin-bottom:20px;">留言板</h2>
+
+<% if (success) { %>
+  <div class="alert alert-success"><%= success %></div>
+<% } %>
+
+<div class="contact-list">
+  <% contacts.forEach(c => { %>
+    <div class="contact-item">
+      <div class="meta"><strong><%= c.name %></strong> &lt;<%= c.email %>&gt; · <%= c.created_at %></div>
+      <!-- ===== XSS漏洞：留言内容不转义直接渲染 ===== -->
+      <div class="msg"><%- c.message %></div>
+    </div>
+  <% }); %>
+</div>
+
+<div class="card">
+  <h3>写留言</h3>
+  <form method="POST" action="/contact">
+    <div class="form-group">
+      <label for="name">姓名</label>
+      <input type="text" id="name" name="name" placeholder="你的姓名" required>
+    </div>
+    <div class="form-group">
+      <label for="email">邮箱</label>
+      <input type="text" id="email" name="email" placeholder="你的邮箱" required>
+    </div>
+    <div class="form-group">
+      <label for="message">留言内容</label>
+      <textarea id="message" name="message" placeholder="写下你想说的话..." required></textarea>
+    </div>
+    <button type="submit" class="btn">提交留言</button>
+  </form>
+</div>

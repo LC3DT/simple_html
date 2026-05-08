@@ -1,0 +1,55 @@
+<div class="card">
+  <h2>欢迎来到 TechShop 科技商城</h2>
+  <p style="color:#666;margin-bottom:16px;">这是一个用于 WAF（Web应用防火墙）测试的模拟企业站点。本站点故意包含多种安全漏洞，供你在前方部署 WAF 时进行拦截验证。</p>
+
+  <h3 style="margin-top:20px;">可测试的攻击面</h3>
+  <table style="width:100%;border-collapse:collapse;font-size:14px;margin-top:12px;">
+    <thead>
+      <tr style="background:#f0f2f5;">
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #d9d9d9;">页面</th>
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #d9d9d9;">路由</th>
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #d9d9d9;">漏洞类型</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">登录</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">POST /login</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#cf1322;">SQL 注入</td></tr>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">注册</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">POST /register</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#cf1322;">SQL 注入</td></tr>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">商品搜索</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">GET /products?q=</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#cf1322;">SQL 注入</td></tr>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">商品评论</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">POST /products/:id/comment</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#cf1322;">XSS</td></tr>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">留言板</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">POST /contact</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#cf1322;">XSS</td></tr>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">个人信息</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">POST /profile</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#cf1322;">SQL注入 + 命令注入</td></tr>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">文件上传</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">POST /profile/upload</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#cf1322;">路径遍历</td></tr>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">API用户查询</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">GET /api/users?name=</td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;color:#cf1322;">SQL 注入</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:24px;">预置账号</h3>
+  <table style="width:100%;border-collapse:collapse;font-size:14px;margin-top:12px;">
+    <thead>
+      <tr style="background:#f0f2f5;">
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #d9d9d9;">用户名</th>
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #d9d9d9;">密码</th>
+        <th style="padding:8px 12px;text-align:left;border-bottom:1px solid #d9d9d9;">角色</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;"><code>admin</code></td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;"><code>admin123</code></td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">admin</td></tr>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;"><code>test</code></td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;"><code>test123</code></td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">user</td></tr>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;"><code>alice</code></td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;"><code>pass1</code></td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">user</td></tr>
+      <tr><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;"><code>bob</code></td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;"><code>pass2</code></td><td style="padding:8px 12px;border-bottom:1px solid #f0f0f0;">user</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3 style="margin-top:24px;margin-bottom:12px;">热门商品</h3>
+<div class="product-grid">
+  <% products.forEach(p => { %>
+    <div class="product-item">
+      <div class="category"><%= p.category %></div>
+      <h3><a href="/products/<%= p.id %>"><%= p.name %></a></h3>
+      <div class="desc"><%= p.description %></div>
+      <div class="price">¥<%= p.price.toFixed(2) %></div>
+    </div>
+  <% }); %>
+</div>
+<a href="/products" class="btn" style="margin-top:16px;">查看全部商品 →</a>

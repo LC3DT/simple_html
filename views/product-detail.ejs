@@ -1,0 +1,38 @@
+<div class="card product-detail">
+  <h2><%= product.name %></h2>
+  <div class="meta">分类：<%= product.category %></div>
+  <div class="price-large">¥<%= product.price.toFixed(2) %></div>
+  <p style="color:#666;line-height:1.8;"><%= product.description %></p>
+</div>
+
+<!-- ===== XSS漏洞：评论内容不转义直接渲染 ===== -->
+<div class="card">
+  <h3>商品评论</h3>
+  <div class="comment-list">
+    <% comments.forEach(c => { %>
+      <div class="comment-item">
+        <span class="author"><%= c.username %></span>
+        <span class="time"><%= c.created_at %></span>
+        <div class="content"><%- c.content %></div>
+      </div>
+    <% }); %>
+    <% if (comments.length === 0) { %>
+      <p style="color:#999;">暂无评论</p>
+    <% } %>
+  </div>
+</div>
+
+<div class="card">
+  <h3>发表评论</h3>
+  <form method="POST" action="/products/<%= product.id %>/comment">
+    <div class="form-group">
+      <label for="username">昵称</label>
+      <input type="text" id="username" name="username" placeholder="你的昵称" required>
+    </div>
+    <div class="form-group">
+      <label for="content">评论内容</label>
+      <textarea id="content" name="content" placeholder="写下你的评论..." required></textarea>
+    </div>
+    <button type="submit" class="btn">提交评论</button>
+  </form>
+</div>

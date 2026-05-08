@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  waf-test-site:
+    build: .
+    container_name: waf-test-site
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./data.db:/app/data.db
+      - ./uploads:/app/uploads

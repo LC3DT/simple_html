@@ -1,0 +1,41 @@
+<div class="card">
+  <h2>个人信息</h2>
+
+  <% if (success) { %>
+    <div class="alert alert-success"><%= success %></div>
+  <% } %>
+  <% if (error) { %>
+    <div class="alert alert-error"><%= error %></div>
+  <% } %>
+
+  <form method="POST" action="/profile">
+    <div class="form-group">
+      <label>用户名</label>
+      <input type="text" value="<%= user.username %>" disabled>
+    </div>
+    <div class="form-group">
+      <label for="email">邮箱</label>
+      <input type="text" id="email" name="email" value="<%= user.email %>">
+    </div>
+    <div class="form-group">
+      <label for="bio">个人简介</label>
+      <textarea id="bio" name="bio"><%= user.bio %></textarea>
+    </div>
+    <div class="form-group">
+      <label for="avatar_url">头像 URL（支持远程链接）</label>
+      <input type="text" id="avatar_url" name="avatar_url" placeholder="https://example.com/avatar.png">
+    </div>
+    <button type="submit" class="btn">保存修改</button>
+  </form>
+</div>
+
+<div class="card">
+  <h3>文件上传</h3>
+  <form method="POST" action="/profile/upload" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="file">选择文件</label>
+      <input type="file" id="file" name="file">
+    </div>
+    <button type="submit" class="btn">上传文件</button>
+  </form>
+</div>
