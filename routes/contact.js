@@ -5,7 +5,8 @@ const { getDb } = require('../db');
 router.get('/', (req, res) => {
   const db = getDb();
   const contacts = db.prepare('SELECT * FROM contacts ORDER BY created_at DESC').all();
-  res.render('contact', { title: '留言板', contacts, success: null });
+  const success = req.query.success ? '留言成功！' : null;
+  res.render('contact', { title: '留言板', contacts, success, error: null });
 });
 
 router.post('/', (req, res) => {
@@ -17,10 +18,13 @@ router.post('/', (req, res) => {
 
   try {
     db.prepare(sql).run();
-  } catch (e) {}
+  } catch (e) {
+    console.error('[CONTACT] 留言提交失败:', e.message);
+    const contacts = db.prepare('SELECT * FROM contacts ORDER BY created_at DESC').all();
+    return res.render('contact', { title: '留言板', contacts, success: null, error: '留言失败，请重试' });
+  }
 
-  const contacts = db.prepare('SELECT * FROM contacts ORDER BY created_at DESC').all();
-  res.render('contact', { title: '留言板', contacts, success: '留言成功！' });
+  res.redirect('/contact?success=1');
 });
 
 module.exports = router;

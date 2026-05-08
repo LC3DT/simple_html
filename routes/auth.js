@@ -4,11 +4,11 @@ const { getDb } = require('../db');
 const { setUser, clearUser } = require('../middleware/auth');
 
 router.get('/login', (req, res) => {
-  res.render('login', { title: '登录', error: null });
+  res.render('login', { title: '登录', error: null, redirect: req.query.redirect || '' });
 });
 
 router.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, redirect: postRedirect } = req.body;
   const db = getDb();
 
   // ===== SQL注入漏洞：直接拼接用户输入 =====
@@ -18,12 +18,13 @@ router.post('/login', (req, res) => {
     const user = db.prepare(sql).get();
     if (user) {
       setUser(req, user);
-      const redirect = req.query.redirect || '/dashboard';
+      const redirect = postRedirect || '/dashboard';
       return res.redirect(redirect);
     }
-    res.render('login', { title: '登录', error: '用户名或密码错误' });
+    res.render('login', { title: '登录', error: '用户名或密码错误', redirect: postRedirect || '' });
   } catch (e) {
-    res.render('login', { title: '登录', error: '登录失败: ' + e.message });
+    console.error('[AUTH] 登录异常:', e.message);
+    res.render('login', { title: '登录', error: '登录失败: ' + e.message, redirect: postRedirect || '' });
   }
 });
 

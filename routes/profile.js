@@ -24,7 +24,8 @@ const upload = multer({ storage });
 router.get('/', requireAuth, (req, res) => {
   const db = getDb();
   const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.session.user.id);
-  res.render('profile', { title: '个人信息', user, success: null, error: null });
+  const success = req.query.upload ? '文件上传成功' : null;
+  res.render('profile', { title: '个人信息', user, success, error: null });
 });
 
 router.post('/', requireAuth, (req, res) => {
@@ -36,7 +37,11 @@ router.post('/', requireAuth, (req, res) => {
 
   try {
     db.prepare(sql).run();
-  } catch (e) {}
+  } catch (e) {
+    console.error('[PROFILE] 资料更新失败:', e.message);
+    const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.session.user.id);
+    return res.render('profile', { title: '个人信息', user, success: null, error: '保存失败，请重试' });
+  }
 
   // ===== 命令注入漏洞：avatar_url传入shell命令 =====
   if (avatar_url && avatar_url.trim()) {
@@ -54,9 +59,12 @@ router.post('/', requireAuth, (req, res) => {
 
 router.post('/upload', requireAuth, upload.single('file'), (req, res) => {
   // ===== 路径遍历 + 无文件类型检查 =====
-  const db = getDb();
-  const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.session.user.id);
-  res.render('profile', { title: '个人信息', user, success: '文件上传成功', error: null });
+  if (!req.file) {
+    const db = getDb();
+    const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.session.user.id);
+    return res.render('profile', { title: '个人信息', user, success: null, error: '请选择文件' });
+  }
+  res.redirect('/profile?upload=ok');
 });
 
 module.exports = router;

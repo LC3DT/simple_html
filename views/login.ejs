@@ -4,6 +4,9 @@
     <div class="alert alert-error"><%= error %></div>
   <% } %>
   <form method="POST" action="/login">
+    <% if (typeof redirect !== 'undefined' && redirect) { %>
+      <input type="hidden" name="redirect" value="<%= redirect %>">
+    <% } %>
     <div class="form-group">
       <label for="username">用户名</label>
       <input type="text" id="username" name="username" placeholder="请输入用户名" required>

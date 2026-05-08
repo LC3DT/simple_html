@@ -3,6 +3,9 @@
 <% if (success) { %>
   <div class="alert alert-success"><%= success %></div>
 <% } %>
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="alert alert-error"><%= error %></div>
+<% } %>
 
 <div class="contact-list">
   <% contacts.forEach(c => { %>

@@ -46,6 +46,11 @@ app.get('/dashboard', require('./middleware/auth').requireAuth, (req, res) => {
   res.render('dashboard', { title: '控制台' });
 });
 
+// ===== 全局 404 =====
+app.use((req, res) => {
+  res.status(404).render('404', { title: '页面不存在' });
+});
+
 // ===== 启动 =====
 app.listen(PORT, () => {
   console.log(`[SERVER] TechShop 运行在 http://localhost:${PORT}`);

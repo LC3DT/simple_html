@@ -35,7 +35,7 @@ router.get('/:id', (req, res) => {
   }
 
   if (!product) {
-    return res.status(404).send('商品不存在');
+    return res.status(404).render('404', { title: '页面不存在' });
   }
 
   // ===== SQL注入漏洞：product_id拼入查询 =====
@@ -59,7 +59,9 @@ router.post('/:id/comment', (req, res) => {
 
   try {
     db.prepare(sql).run();
-  } catch (e) {}
+  } catch (e) {
+    console.error('[PRODUCTS] 评论提交失败:', e.message);
+  }
 
   res.redirect('/products/' + req.params.id);
 });
